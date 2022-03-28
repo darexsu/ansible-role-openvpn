@@ -10,15 +10,15 @@
   - Playbooks (merge version):
       - [install and configure: OpenVPN, FirewallD](#install-and-configure-openvpn-firewalld-merge-version)
           - [install: OpenVPN, repo: distribution](#install-openvpn-repo-distribution-merge-version)
-          - [install: OpenVPN, repo: third_party](#install-openvpn-repo-thirdparty-merge-version)
+          - [install: OpenVPN, repo: third_party](#install-openvpn-repo-third-party-merge-version)
           - [configure: Create Certificate Authority](#configure-create-certificate-authority-merge-version)
-          - [configure: OpenVPN-server](#configure-openvpn-merge-version)
+          - [configure: OpenVPN-server](#configure-openvpn-server-merge-version)
           - [configure: OpenVPN-client](#configure-openvpn-client-merge-version)
-          - [configure: add multiple Client.ovpn ](#configure-openvpn-merge-version)
+          - [configure: add multiple Client.ovpn ](#configure-add-multiple-clientovpn-merge-version)
   - Playbooks (full version):
       - [install and configure: OpenVPN, FirewallD](#install-and-configure-openvpn-firewalld-full-version)
           - [install: OpenVPN, repo: distribution](#install-openvpn-repo-distribution-full-version)
-          - [install: OpenVPN, repo: third_party](#install-openvpn-repo-thirdparty-full-version)
+          - [install: OpenVPN, repo: third_party](#install-openvpn-repo-third-party-full-version)
           - [configure: Create Certificate Authority](#configure-create-certificate-authority-full-version)
           - [configure: OpenVPN-server](#configure-openvpn-server-full-version)
           - [configure: OpenVPN-client](#configure-openvpn-client-full-version)
@@ -185,30 +185,31 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       include_role:
         name: darexsu.openvpn
 ```
-##### Configure: Create Certificate Authority (full version)
+##### Configure: Create Certificate Authority (merge version)
 ```yaml
 ---
 - hosts: all
   become: true
 
   vars:
-    # OpenVPN
-    openvpn:
-      enabled: true
-    # OpenVPN -> Certificate_Authority
-    openvpn_ca:
-      enabled: true
-      path: "/etc/openvpn/ca/"
-      diffie_hellman_bit: "2048"
-      privatekey_passphrase: "change_me"         # <-- Change
-      common_name: "{{ ansible_fqdn }}"
-      country_name: "US"
-      state_or_province_name: "New York"
-      locality_name: "New York City"
-      organization_name: "Organization_Name"
-      organizational_unit_name: "Community"
-      email_address: "example@gmail.com"
-      basic_constraints: 'CA:TRUE'   
+    merge:
+      # OpenVPN
+      openvpn:
+        enabled: true
+      # OpenVPN -> Certificate_Authority
+      openvpn_ca:
+        enabled: true
+        path: "/etc/openvpn/ca/"
+        diffie_hellman_bit: "2048"
+        privatekey_passphrase: "change_me"         # <-- Change
+        common_name: "{{ ansible_fqdn }}"
+        country_name: "US"
+        state_or_province_name: "New York"
+        locality_name: "New York City"
+        organization_name: "Organization_Name"
+        organizational_unit_name: "Community"
+        email_address: "example@gmail.com"
+        basic_constraints: 'CA:TRUE'   
 
   tasks:
     - name: role darexsu.openvpn

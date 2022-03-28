@@ -39,6 +39,10 @@
 ```
 ansible-galaxy install darexsu.openvpn --force
 ```
+### Requirements
+
+roles: [FirewallD](https://github.com/darexsu/ansible-role-firewalld) (will automatically be installed)
+
 ### FAQ
 
 - Q: Playbooks (merge version)

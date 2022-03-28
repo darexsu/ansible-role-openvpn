@@ -42,22 +42,22 @@ ansible-galaxy install darexsu.openvpn --force
 ### FAQ
 
 - Q: Merge or Full playbook version?
-- A: Some users prefer that variables that are hashes (aka ‘dictionaries’ in Python terms) are merged. This setting is called ‘merge’. This is not the default behavior and it does not affect variables whose values are scalars (integers, strings) or arrays. [merge behaviour](#merge-behaviour) 
+  - A: Some users prefer that variables that are hashes (aka ‘dictionaries’ in Python terms) are merged. This setting is called ‘merge’. This is not the default behavior and it does not affect variables whose values are scalars (integers, strings) or arrays. [merge behaviour](#merge-behaviour) 
 
 - Q: I want to easy deploy OpenVPN-server
-- A: Use playbook [install and configure: OpenVPN, FirewallD](#install-and-configure-openvpn-firewalld-full-version)
+  - A: Use playbook [install and configure: OpenVPN, FirewallD](#install-and-configure-openvpn-firewalld-full-version)
 
 - Q: Enable routing all traffic through vpn?
-- A: by default
+  - A: by default
 
 - Q: Where are ovpn files stored?
-- A: /etc/openvpn/client/
+  - A: /etc/openvpn/client/
 
 - Q: How can I create other ovpn files if OpenVPN and Certificate Authority already installed ?
-- A: Use [configure: add multiple Client.ovpn ](#configure-add-multiple-clientovpn-full-version)
+  - A: Use [configure: add multiple Client.ovpn ](#configure-add-multiple-clientovpn-full-version)
 
 - Q: Using the same ovpn profile from multiple computers
-- A: add "duplicate-cn" to server.conf and "systemctl restart openvpn-server@server"
+  - A: add "duplicate-cn" to server.conf and "systemctl restart openvpn-server@server"
 ### Merge behaviour
 
 Replace or Merge dictionaries (with "hash_behaviour=replace" in ansible.cfg):

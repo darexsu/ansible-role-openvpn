@@ -42,7 +42,7 @@ ansible-galaxy install darexsu.openvpn --force
 ### FAQ
 
 - Q: Playbooks (merge version)
-  - A: Some users prefer that variables that are hashes (aka ‘dictionaries’ in Python terms) are merged. This setting is called ‘merge’. You can use both version [merge behaviour](#merge-behaviour). Don't turn on "hash_behaviour" in ansible.cfg
+  - A: Some users prefer that variables that are hashes (aka ‘dictionaries’ in Python terms) are merged. This setting is called ‘merge’. You can use both version - see [merge behaviour](#merge-behaviour). Don't turn on "hash_behaviour" in ansible.cfg
 
 - Q: I want to easy deploy OpenVPN-server
   - A: Use playbook [install and configure: OpenVPN, FirewallD](#install-and-configure-openvpn-firewalld-full-version)

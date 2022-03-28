@@ -1,0 +1,38 @@
+---
+- name: ensure dependencies are installed.
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items: "{{ openvpn_const['Debian']['dependencies'] }}"
+
+- name: add third_party repo
+  block:
+    - name: add gpg key
+      ansible.builtin.apt_key:
+        url: "{{ openvpn_const['Debian']['openvpn_gpg'] }}"
+        state: present
+
+    - name: add openvpn repo
+      ansible.builtin.apt_repository:
+        repo: "{{ openvpn_const['Debian']['openvpn_repo'] }}"
+        state: present
+  when: openvpn.repo == "third_party"
+
+- name: install openvpn packages
+  ansible.builtin.apt:
+    name: "{{ openvpn_const['Debian']['packages'] }}"
+    state: present
+    update_cache: true
+
+- name: "Make sure dir for log-files is present"
+  ansible.builtin.file:
+    path: "/var/log/openvpn/"
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
+- name: force systemd to reread configs
+  ansible.builtin.systemd:
+    daemon_reload: true

@@ -1,0 +1,13 @@
+---
+- debug:
+    msg: "setup {{ openvpn_config[item.key]['file'] }}"
+
+- name: "openvpn config {{ openvpn_config[item.key]['file'] }}"
+  ansible.builtin.template:
+    src: "{{ openvpn_config[item.key]['src'] }}"
+    dest: "{{ openvpn_config[item.key]['path'] }}{{ openvpn_config[item.key]['file'] }}"
+    owner: root
+    group: root
+    mode: 0660
+    backup: "{{ openvpn_config[item.key]['backup'] }}"
+  notify: restart openvpn@server

@@ -1,0 +1,26 @@
+---
+- debug:
+    msg: "setup {{ openvpn_sign_with_ca[item.key]['common_name'] }}.ovpn"
+
+- name: "Slurp CA"
+  ansible.builtin.slurp:
+    src: "{{ openvpn_ca['path'] }}{{ openvpn_ca['common_name'] }}.crt"
+  register: slurp_ca
+
+- name: "Slurp client crt"
+  ansible.builtin.slurp:
+    src: "{{ openvpn_sign_with_ca[item.key]['path'] }}{{ openvpn_sign_with_ca[item.key]['common_name'] }}.crt"
+  register: slurp_crt
+
+- name: "Slurp client key"
+  ansible.builtin.slurp:
+    src: "{{ openvpn_sign_with_ca[item.key]['path'] }}{{ openvpn_sign_with_ca[item.key]['common_name'] }}.key"
+  register: slurp_key
+
+- name: "Create ovpn file"
+  ansible.builtin.template:
+    src: "client_ovpn.j2"
+    dest: "{{ openvpn_sign_with_ca[item.key]['path'] }}/{{ openvpn_sign_with_ca[item.key]['common_name'] }}.ovpn"
+    owner: root
+    group: root
+    mode: 0660

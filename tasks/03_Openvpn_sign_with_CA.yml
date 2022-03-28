@@ -1,0 +1,41 @@
+---
+- debug:
+    msg: "sign {{ openvpn_sign_with_ca[item.key]['common_name']  }}"
+
+- name: "Make sure dir for clients is present"
+  ansible.builtin.file:
+    path: "{{ openvpn_sign_with_ca[item.key]['path'] }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
+- name: "Generate private key for {{ openvpn_sign_with_ca[item.key]['common_name']  }}"
+  community.crypto.openssl_privatekey:
+    path: "{{ openvpn_sign_with_ca[item.key]['path'] }}{{ openvpn_sign_with_ca[item.key]['common_name'] }}.key"
+    passphrase: "{{ openvpn_sign_with_ca[item.key]['privatekey_passphrase'] | default(omit) }}"
+    cipher: "{{ 'auto' if openvpn_sign_with_ca[item.key]['privatekey_passphrase'] is defined else omit }}"
+
+- name: "Generate CSR for {{ openvpn_sign_with_ca[item.key]['common_name']  }}"
+  community.crypto.openssl_csr:
+    path: "{{ openvpn_sign_with_ca[item.key]['path'] }}{{ openvpn_sign_with_ca[item.key]['common_name'] }}.csr"
+    privatekey_path: "{{ openvpn_sign_with_ca[item.key]['path'] }}{{ openvpn_sign_with_ca[item.key]['common_name'] }}.key"
+    privatekey_passphrase: "{{ openvpn_sign_with_ca[item.key]['privatekey_passphrase'] | default(omit) }}"
+    common_name: "{{ openvpn_sign_with_ca[item.key]['common_name'] }}"
+    country_name: "{{ openvpn_sign_with_ca[item.key]['country_name'] | default(omit) }}"
+    state_or_province_name: "{{ openvpn_sign_with_ca[item.key]['state_or_province_name'] | default(omit) }}"
+    locality_name: "{{ openvpn_sign_with_ca[item.key]['locality_name'] | default(omit) }}"
+    organization_name: "{{ openvpn_sign_with_ca[item.key]['organization_name'] | default(omit) }}"
+    organizational_unit_name: "{{ openvpn_sign_with_ca[item.key]['organizational_unit_name'] | default(omit) }}"
+    email_address: "{{ openvpn_sign_with_ca[item.key]['email_address'] | default(omit) }}"
+    key_usage: "{{ openvpn_sign_with_ca[item.key]['key_usage'] | default(omit) }}"
+    extended_key_usage: "{{ openvpn_sign_with_ca[item.key]['extended_key_usage'] | default(omit) }}"
+
+- name: "Sign {{ openvpn_sign_with_ca[item.key]['common_name']  }} with CA"
+  community.crypto.x509_certificate:
+    path: "{{ openvpn_sign_with_ca[item.key]['path'] }}{{ openvpn_sign_with_ca[item.key]['common_name'] }}.crt"
+    csr_path: "{{ openvpn_sign_with_ca[item.key]['path'] }}{{ openvpn_sign_with_ca[item.key]['common_name'] }}.csr"
+    ownca_path: "{{ openvpn_ca['path'] }}{{ openvpn_ca['common_name'] }}.crt"
+    ownca_privatekey_path: "{{ openvpn_ca['path'] }}{{ openvpn_ca['common_name'] }}.key"
+    ownca_privatekey_passphrase: "{{ openvpn_ca['privatekey_passphrase'] | default(omit) }}"
+    provider: ownca

@@ -1,0 +1,13 @@
+{{ openvpn_config.client.data }}
+
+<ca>
+{{ slurp_ca.content|b64decode }}
+</ca>
+
+<cert>
+{{ slurp_crt.content|b64decode }}
+</cert>
+
+<key>
+{{ slurp_key.content|b64decode }}
+</key>

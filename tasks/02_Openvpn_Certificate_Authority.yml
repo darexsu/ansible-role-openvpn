@@ -1,0 +1,41 @@
+---
+- name: "Make sure dir for CA is present"
+  ansible.builtin.file:
+    path: "{{ openvpn_ca.path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
+- name: "CA: Generate Diffie-Hellman parameters"
+  community.crypto.openssl_dhparam:
+    path: "{{ openvpn_ca.path }}dh.pem"
+    size: "{{ openvpn_ca.diffie_hellman_bit }}"
+
+- name: "CA: Generate the private key"
+  community.crypto.openssl_privatekey:
+    path: "{{ openvpn_ca.path }}{{ openvpn_ca.common_name }}.key"
+    passphrase: "{{ openvpn_ca.privatekey_passphrase | default(omit) }}"
+    cipher: "{{ 'auto' if openvpn_ca.privatekey_passphrase is defined else omit }}"
+
+- name: "CA: Generate CSR"
+  community.crypto.openssl_csr:
+    path: "{{ openvpn_ca.path }}{{ openvpn_ca.common_name }}.csr"
+    privatekey_path: "{{ openvpn_ca.path }}{{ openvpn_ca.common_name }}.key"
+    privatekey_passphrase: "{{ openvpn_ca.privatekey_passphrase | default(omit) }}"
+    common_name: "{{ openvpn_ca.common_name }}"
+    country_name: "{{ openvpn_ca.country_name | default(omit) }}"
+    state_or_province_name: "{{ openvpn_ca.state_or_province_name | default(omit) }}"
+    locality_name: "{{ openvpn_ca.locality_name | default(omit) }}"
+    organization_name: "{{ openvpn_ca.organization_name | default(omit) }}"
+    organizational_unit_name: "{{ openvpn_ca.organizational_unit_name | default(omit) }}"
+    email_address: "{{ openvpn_ca.email_address | default(omit) }}"
+    basic_constraints: "{{ openvpn_ca.basic_constraints | default(omit) }}"
+
+- name: "CA: Self-sign"
+  community.crypto.x509_certificate:
+    path: "{{ openvpn_ca.path }}{{ openvpn_ca.common_name }}.crt"
+    privatekey_path: "{{ openvpn_ca.path }}{{ openvpn_ca.common_name }}.key"
+    privatekey_passphrase: "{{ openvpn_ca.privatekey_passphrase | default(omit) }}"
+    csr_path: "{{ openvpn_ca.path }}{{ openvpn_ca.common_name }}.csr"
+    provider: selfsigned

@@ -1,0 +1,57 @@
+---
+- name: merge dictionaries
+  block:
+    - include_vars:
+        file: ../../darexsu.openvpn/defaults/main.yml
+        name: openvpn_default_vars
+
+    - name: merge default and new dictionaries
+      set_fact:
+        "{{ item.key }}": "{{ openvpn_default_vars[item.key] | combine(merge[item.key], recursive=True)}}"
+      when: openvpn_default_vars[item.key] is defined
+      with_dict: "{{ merge }}"
+
+    - name: combine defaults vars with merge dictionary
+      set_fact:
+        merge: "{{ openvpn_default_vars | combine(merge, recursive=True)}}"
+  when: merge is defined
+
+- name: openvpn role is disabled
+  meta: end_play
+  when: not openvpn.enabled
+
+- name: "-> 01_Openvpn_install_{{ ansible_os_family }}.yml"
+  include_tasks: "./tasks/01_Openvpn_install_{{ ansible_os_family }}.yml"
+  when: openvpn_install.enabled
+
+- name: service facts
+  ansible.builtin.service_facts:
+
+- name: "-> 02_Openvpn_Certificate_Authority.yml"
+  include_tasks: "./tasks/02_Openvpn_Certificate_Authority.yml"
+  when: openvpn_ca.enabled and ansible_facts.services is search("openvpn")
+
+- name: "-> 03_Openvpn_sign_with_CA.yml"
+  include_tasks: "./tasks/03_Openvpn_sign_with_CA.yml"
+  when: openvpn_sign_with_ca[item.key]['enabled'] and ansible_facts.services is search("openvpn")
+  with_dict: "{{ openvpn_sign_with_ca }}"
+
+- name: "-> 04_Openvpn_config.yml"
+  include_tasks: "./tasks/04_Openvpn_config.yml"
+  when: openvpn_config[item.key]['enabled'] and ansible_facts.services is search("openvpn")
+  with_dict: "{{ openvpn_config }}"
+
+- name: "-> 05_Openvpn_create_ovpn_file.yml"
+  include_tasks: "./tasks/05_Openvpn_create_ovpn_file.yml"
+  when: openvpn_sign_with_ca[item.key]['enabled'] and ansible_facts.services is search("openvpn")
+  with_dict: "{{ openvpn_sign_with_ca }}"
+
+- name: "-> 06_Firewall_options.yml"
+  include_tasks: "./tasks/06_Firewall_options.yml"
+
+- name: "ensure openvpn is {{ openvpn['service']['state'] }}"
+  ansible.builtin.systemd:
+    name: "{{ openvpn_const[ansible_os_family]['service_name'] }}"
+    state: "{{ openvpn['service']['state'] }}"
+    enabled: "{{ openvpn['service']['enabled'] }}"
+  when: ansible_facts.services is search("openvpn")

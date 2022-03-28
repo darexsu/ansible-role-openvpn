@@ -5,6 +5,7 @@
   - Role:
       - [platforms](#platforms)
       - [install](#install)
+      - [requirements](#requirements)
       - [FAQ](#faq)
       - [merge behaviour](#merge-behaviour)      
   - Playbooks (merge version):
@@ -258,8 +259,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
             ifconfig-pool-persist /etc/openvpn/server/ipp.txt
             tun-mtu 1500
             keepalive 10 120
-            cipher AES-256-GCM
-            data-ciphers AES-256-GCM:AES-128-GCM:AES-256-CBC:BF-CBC
+            cipher AES-256-GCM  
             tls-server
             auth SHA256
             client-to-client
@@ -454,7 +454,6 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           tun-mtu 1500
           keepalive 10 120
           cipher AES-256-GCM
-          data-ciphers AES-256-GCM:AES-128-GCM:AES-256-CBC:BF-CBC
           tls-server
           auth SHA256
           client-to-client
@@ -658,7 +657,6 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           tun-mtu 1500
           keepalive 10 120
           cipher AES-256-GCM
-          data-ciphers AES-256-GCM:AES-128-GCM:AES-256-CBC:BF-CBC
           tls-server
           auth SHA256
           client-to-client

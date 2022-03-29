@@ -57,9 +57,6 @@ roles: [FirewallD](https://github.com/darexsu/ansible-role-firewalld) (will auto
 - Q: Enable routing all traffic through vpn?
   - A: by default
 
-- Q: Enable routing all traffic through vpn?
-  - A: by default
-
 - Q: How can I connect to my OpenVPN-server?
   - A: 1) Setup OpenVPN-client for your OS or Android/iOS. 2) Import file "client.ovpn"
 
@@ -70,7 +67,7 @@ roles: [FirewallD](https://github.com/darexsu/ansible-role-firewalld) (will auto
   - A: Use [configure: add multiple Client.ovpn ](#configure-add-multiple-clientovpn-full-version)
 
 - Q: Using the same ovpn profile from multiple computers
-  - A: add "duplicate-cn" to server.conf and "systemctl restart openvpn-server@server"
+  - A: Edit: server.conf. Add "duplicate-cn". Remove "ifconfig-pool-persist"
 ### Merge behaviour
 
 Replace or Merge dictionaries (with "hash_behaviour=replace" in ansible.cfg):

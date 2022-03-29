@@ -27,8 +27,8 @@
 
 ### Platforms
 
-|  Testing         | repo: distribution | repo: third_party  |
-| :--------------: | :----------------: | :----------------: |
+|  Testing         | repo: distribution | repo: third_party|
+| :--------------: | :----------------: | ---------------- |
 | Debian 11        |  OpenVPN 2.5       | OpenVPN 2.5 or latest [openvpn.net]  |
 | Ubuntu 20.04     |  OpenVPN 2.4       | OpenVPN 2.4 or latest [openvpn.net]  |
 | Ubuntu 18.04     |  OpenVPN 2.4       | OpenVPN 2.4 or latest [openvpn.net]  |

@@ -57,6 +57,9 @@ roles: [FirewallD](https://github.com/darexsu/ansible-role-firewalld) (will auto
 - Q: Enable routing all traffic through vpn?
   - A: by default
 
+- Q: Enable routing all traffic through vpn?
+  - A: by default
+
 - Q: How can I connect to my OpenVPN-server?
   - A: 1) Setup OpenVPN-client for your OS or Android/iOS. 2) Import file "client.ovpn"
 
@@ -295,9 +298,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       openvpn_config:
         client:
           enabled: true
-          file: "client"
+          file: "client.conf"
           src: "config_conf.j2"
-          path: "/etc/openvpn/ccd/"
+          path: "/etc/openvpn/client/"
           backup: false
           data: |
             client
@@ -360,9 +363,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       openvpn_config:
         client1:
           enabled: true
-          file: "client1"
+          file: "client1.conf"
           src: "config_conf.j2"
-          path: "/etc/openvpn/ccd/"
+          path: "/etc/openvpn/client/"
           backup: false
           data: |
             client
@@ -381,9 +384,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
             verb 2
         client2:
           enabled: true
-          file: "client2"
+          file: "client2.conf"
           src: "config_conf.j2"
-          path: "/etc/openvpn/ccd/"
+          path: "/etc/openvpn/client/"
           backup: false
           data: |
             client
@@ -402,9 +405,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
             verb 2
         client3:
           enabled: true
-          file: "client3"
+          file: "client3.conf"
           src: "config_conf.j2"
-          path: "/etc/openvpn/ccd/"
+          path: "/etc/openvpn/client/"
           backup: false
           data: |
             client
@@ -423,9 +426,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
             verb 2
         client4:
           enabled: true
-          file: "client4"
+          file: "client4.conf"
           src: "config_conf.j2"
-          path: "/etc/openvpn/ccd/"
+          path: "/etc/openvpn/client/"
           backup: false
           data: |
             client
@@ -444,9 +447,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
             verb 2
         client5:
           enabled: true
-          file: "client5"
+          file: "client5.conf"
           src: "config_conf.j2"
-          path: "/etc/openvpn/ccd/"
+          path: "/etc/openvpn/client/"
           backup: false
           data: |
             client
@@ -482,13 +485,13 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         enabled: true
       # OpenVPN -> config
       openvpn_config:
-        example_name:
+        client:
           enabled: true
-          file: "example_name"
+          file: "client"
           path: "/etc/openvpn/ccd/"
           data: |
             disable
-   
+
   tasks:
     - name: role darexsu.openvpn
       include_role:
@@ -578,9 +581,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           verb 2
       client:
         enabled: true
-        file: "client"
+        file: "client.conf"
         src: "config_conf.j2"
-        path: "/etc/openvpn/ccd/"
+        path: "/etc/openvpn/client/"
         backup: false
         data: |
           client
@@ -809,9 +812,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
     openvpn_config:      
       client:
         enabled: true
-        file: "client"
+        file: "client.conf"
         src: "config_conf.j2"
-        path: "/etc/openvpn/ccd/"
+        path: "/etc/openvpn/client/"
         backup: false
         data: |
           client
@@ -889,9 +892,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
     openvpn_config:
       client1:
         enabled: true
-        file: "client1"
+        file: "client1.conf"
         src: "config_conf.j2"
-        path: "/etc/openvpn/ccd/"
+        path: "/etc/openvpn/client/"
         backup: false
         data: |
           client
@@ -910,9 +913,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           verb 2
       client2:
         enabled: true
-        file: "client2"
+        file: "client2.conf"
         src: "config_conf.j2"
-        path: "/etc/openvpn/ccd/"
+        path: "/etc/openvpn/client/"
         backup: false
         data: |
           client
@@ -931,9 +934,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           verb 2
       client3:
         enabled: true
-        file: "client3"
+        file: "client3.conf"
         src: "config_conf.j2"
-        path: "/etc/openvpn/ccd/"
+        path: "/etc/openvpn/client/"
         backup: false
         data: |
           client
@@ -952,9 +955,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           verb 2
       client4:
         enabled: true
-        file: "client4"
+        file: "client4.conf"
         src: "config_conf.j2"
-        path: "/etc/openvpn/ccd/"
+        path: "/etc/openvpn/client/"
         backup: false
         data: |
           client
@@ -973,9 +976,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           verb 2
       client5:
         enabled: true
-        file: "client5"
+        file: "client5.conf"
         src: "config_conf.j2"
-        path: "/etc/openvpn/ccd/"
+        path: "/etc/openvpn/client/"
         backup: false
         data: |
           client
@@ -1019,9 +1022,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         state: "started"
     # OpenVPN -> config
     openvpn_config:
-      example_name:
+      client:
         enabled: true
-        file: "example_name"
+        file: "client"
         src: "config_conf.j2"
         path: "/etc/openvpn/ccd/"
         backup: false

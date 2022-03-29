@@ -79,10 +79,10 @@ openvpn_config:
       log /var/log/openvpn/openvpn.log
       verb 2
   client:
-    enabled: true
-    file: "client"
+    enabled: false
+    file: "client.conf"
     src: "config_conf.j2"
-    path: "/etc/openvpn/ccd/"
+    path: "/etc/openvpn/client/"
     backup: false
     data: |
       client

@@ -51,13 +51,16 @@ roles: [FirewallD](https://github.com/darexsu/ansible-role-firewalld) (will auto
 - Q: Playbooks (merge version)
   - A: Some users prefer that variables that are hashes (aka ‘dictionaries’ in Python terms) are merged. This setting is called ‘merge’. You can use both version - see [merge behaviour](#merge-behaviour). Don't turn on "hash_behaviour" in ansible.cfg
 
-- Q: I want to easy deploy OpenVPN-server
+- Q: Easy way to deploy OpenVPN-server. Ready for use
   - A: Use playbook [install and configure: OpenVPN, FirewallD](#install-and-configure-openvpn-firewalld-full-version)
 
 - Q: Enable routing all traffic through vpn?
   - A: by default
 
-- Q: Where are ovpn files stored?
+- Q: How can I connect to my OpenVPN-server?
+  - A: 1) Setup OpenVPN-client for your OS or Android/iOS. 2) Import file "client.ovpn"
+
+- Q: Where are "client.ovpn" files stored?
   - A: /etc/openvpn/client/
 
 - Q: How can I create other ovpn files if OpenVPN and Certificate Authority already installed ?

@@ -32,8 +32,8 @@
 | Debian 11        |  OpenVPN 2.5       | openvpn.net        |
 | Ubuntu 20.04     |  OpenVPN 2.4       | openvpn.net        |
 | Ubuntu 18.04     |  OpenVPN 2.4       | openvpn.net        |
-| Oracle Linux 8   |  OpenVPN 2.4       | EPEL               |
-| Rocky Linux 8    |  OpenVPN 2.4       | EPEL               |
+| Oracle Linux 8   |  -                 | EPEL               |
+| Rocky Linux 8    |  -                 | EPEL               |
 
 ### Install
 

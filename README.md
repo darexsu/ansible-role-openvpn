@@ -15,7 +15,8 @@
           - [configure: Create Certificate Authority](#configure-create-certificate-authority-merge-version)
           - [configure: OpenVPN-server](#configure-openvpn-server-merge-version)
           - [configure: OpenVPN-client](#configure-openvpn-client-merge-version)
-          - [configure: add multiple Client.ovpn ](#configure-add-multiple-clientovpn-merge-version)
+          - [configure: add multiple client.ovpn ](#configure-add-multiple-clientovpn-merge-version)
+          - [configure: disable some clients ](#configure-disable-some-clients-merge-version)
   - Playbooks (full version):
       - [install and configure: OpenVPN, FirewallD](#install-and-configure-openvpn-firewalld-full-version)
           - [install: OpenVPN, repo: distribution](#install-openvpn-repo-distribution-full-version)
@@ -23,7 +24,8 @@
           - [configure: Create Certificate Authority](#configure-create-certificate-authority-full-version)
           - [configure: OpenVPN-server](#configure-openvpn-server-full-version)
           - [configure: OpenVPN-client](#configure-openvpn-client-full-version)
-          - [configure: add multiple Client.ovpn ](#configure-add-multiple-clientovpn-full-version)
+          - [configure: add multiple client.ovpn ](#configure-add-multiple-clientovpn-full-version)
+          - [configure: disable some clients ](#configure-disable-some-clients-full-version)
 
 ### Platforms
 
@@ -257,9 +259,10 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
             push "dhcp-option DNS 8.8.4.4"
             server {{ openvpn.server_subnet }} 255.255.255.0
             ifconfig-pool-persist /etc/openvpn/server/ipp.txt
+            client-config-dir /etc/openvpn/ccd
             tun-mtu 1500
             keepalive 10 120
-            cipher AES-256-GCM  
+            cipher AES-256-GCM
             tls-server
             auth SHA256
             client-to-client
@@ -289,9 +292,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       openvpn_config:
         client:
           enabled: true
-          file: "client.conf"
+          file: "client"
           src: "config_conf.j2"
-          path: "/etc/openvpn/client/"
+          path: "/etc/openvpn/ccd/"
           backup: false
           data: |
             client
@@ -352,11 +355,95 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         # ...
       # OpenVPN -> config (This config import to client.ovpn)
       openvpn_config:
-        client:
+        client1:
           enabled: true
-          file: "client.conf"
+          file: "client1"
           src: "config_conf.j2"
-          path: "/etc/openvpn/client/"
+          path: "/etc/openvpn/ccd/"
+          backup: false
+          data: |
+            client
+            dev tun
+            proto udp
+            remote {{ openvpn.server_ip }} {{ openvpn.server_port }}
+            remote-cert-tls server
+            auth SHA256
+            cipher AES-256-GCM
+            tun-mtu 1500
+            resolv-retry infinite
+            nobind
+            persist-key
+            persist-tun
+            log-append /var/log/openvpn/openvpn-client.log
+            verb 2
+        client2:
+          enabled: true
+          file: "client2"
+          src: "config_conf.j2"
+          path: "/etc/openvpn/ccd/"
+          backup: false
+          data: |
+            client
+            dev tun
+            proto udp
+            remote {{ openvpn.server_ip }} {{ openvpn.server_port }}
+            remote-cert-tls server
+            auth SHA256
+            cipher AES-256-GCM
+            tun-mtu 1500
+            resolv-retry infinite
+            nobind
+            persist-key
+            persist-tun
+            log-append /var/log/openvpn/openvpn-client.log
+            verb 2
+        client3:
+          enabled: true
+          file: "client3"
+          src: "config_conf.j2"
+          path: "/etc/openvpn/ccd/"
+          backup: false
+          data: |
+            client
+            dev tun
+            proto udp
+            remote {{ openvpn.server_ip }} {{ openvpn.server_port }}
+            remote-cert-tls server
+            auth SHA256
+            cipher AES-256-GCM
+            tun-mtu 1500
+            resolv-retry infinite
+            nobind
+            persist-key
+            persist-tun
+            log-append /var/log/openvpn/openvpn-client.log
+            verb 2
+        client4:
+          enabled: true
+          file: "client4"
+          src: "config_conf.j2"
+          path: "/etc/openvpn/ccd/"
+          backup: false
+          data: |
+            client
+            dev tun
+            proto udp
+            remote {{ openvpn.server_ip }} {{ openvpn.server_port }}
+            remote-cert-tls server
+            auth SHA256
+            cipher AES-256-GCM
+            tun-mtu 1500
+            resolv-retry infinite
+            nobind
+            persist-key
+            persist-tun
+            log-append /var/log/openvpn/openvpn-client.log
+            verb 2
+        client5:
+          enabled: true
+          file: "client5"
+          src: "config_conf.j2"
+          path: "/etc/openvpn/ccd/"
           backup: false
           data: |
             client
@@ -374,6 +461,31 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
             log-append /var/log/openvpn/openvpn-client.log
             verb 2
 
+  tasks:
+    - name: role darexsu.openvpn
+      include_role:
+        name: darexsu.openvpn
+```
+##### Configure: disable some clients (merge version)
+```yaml
+---
+- hosts: all
+  become: true
+
+  vars:
+    merge:
+      # OpenVPN
+      openvpn:
+        enabled: true
+      # OpenVPN -> config
+      openvpn_config:
+        example_name:
+          enabled: true
+          file: "example_name"
+          path: "/etc/openvpn/ccd/"
+          data: |
+            disable
+   
   tasks:
     - name: role darexsu.openvpn
       include_role:
@@ -451,6 +563,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           push "dhcp-option DNS 8.8.4.4"
           server {{ openvpn.server_subnet }} 255.255.255.0
           ifconfig-pool-persist /etc/openvpn/server/ipp.txt
+          client-config-dir /etc/openvpn/ccd
           tun-mtu 1500
           keepalive 10 120
           cipher AES-256-GCM
@@ -462,9 +575,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           verb 2
       client:
         enabled: true
-        file: "client.conf"
+        file: "client"
         src: "config_conf.j2"
-        path: "/etc/openvpn/client/"
+        path: "/etc/openvpn/ccd/"
         backup: false
         data: |
           client
@@ -654,6 +767,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           push "dhcp-option DNS 8.8.4.4"
           server {{ openvpn.server_subnet }} 255.255.255.0
           ifconfig-pool-persist /etc/openvpn/server/ipp.txt
+          client-config-dir /etc/openvpn/ccd
           tun-mtu 1500
           keepalive 10 120
           cipher AES-256-GCM
@@ -662,7 +776,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           client-to-client
           status /var/log/openvpn/openvpn-status.log
           log /var/log/openvpn/openvpn.log
-          verb 3
+          verb 2
 
   tasks:
     - name: role darexsu.openvpn
@@ -692,9 +806,9 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
     openvpn_config:      
       client:
         enabled: true
-        file: "client.conf"
+        file: "client"
         src: "config_conf.j2"
-        path: "/etc/openvpn/client/"
+        path: "/etc/openvpn/ccd/"
         backup: false
         data: |
           client
@@ -770,11 +884,11 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         extended_key_usage: "TLS Web Client Authentication"
     # OpenVPN -> config (This config import to client.ovpn)
     openvpn_config:
-      client:
+      client1:
         enabled: true
-        file: "client.conf"
+        file: "client1"
         src: "config_conf.j2"
-        path: "/etc/openvpn/client/"
+        path: "/etc/openvpn/ccd/"
         backup: false
         data: |
           client
@@ -791,6 +905,125 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           persist-tun
           log-append /var/log/openvpn/openvpn-client.log
           verb 2
+      client2:
+        enabled: true
+        file: "client2"
+        src: "config_conf.j2"
+        path: "/etc/openvpn/ccd/"
+        backup: false
+        data: |
+          client
+          dev tun
+          proto udp
+          remote {{ openvpn.server_ip }} {{ openvpn.server_port }}
+          remote-cert-tls server
+          auth SHA256
+          cipher AES-256-GCM
+          tun-mtu 1500
+          resolv-retry infinite
+          nobind
+          persist-key
+          persist-tun
+          log-append /var/log/openvpn/openvpn-client.log
+          verb 2
+      client3:
+        enabled: true
+        file: "client3"
+        src: "config_conf.j2"
+        path: "/etc/openvpn/ccd/"
+        backup: false
+        data: |
+          client
+          dev tun
+          proto udp
+          remote {{ openvpn.server_ip }} {{ openvpn.server_port }}
+          remote-cert-tls server
+          auth SHA256
+          cipher AES-256-GCM
+          tun-mtu 1500
+          resolv-retry infinite
+          nobind
+          persist-key
+          persist-tun
+          log-append /var/log/openvpn/openvpn-client.log
+          verb 2
+      client4:
+        enabled: true
+        file: "client4"
+        src: "config_conf.j2"
+        path: "/etc/openvpn/ccd/"
+        backup: false
+        data: |
+          client
+          dev tun
+          proto udp
+          remote {{ openvpn.server_ip }} {{ openvpn.server_port }}
+          remote-cert-tls server
+          auth SHA256
+          cipher AES-256-GCM
+          tun-mtu 1500
+          resolv-retry infinite
+          nobind
+          persist-key
+          persist-tun
+          log-append /var/log/openvpn/openvpn-client.log
+          verb 2
+      client5:
+        enabled: true
+        file: "client5"
+        src: "config_conf.j2"
+        path: "/etc/openvpn/ccd/"
+        backup: false
+        data: |
+          client
+          dev tun
+          proto udp
+          remote {{ openvpn.server_ip }} {{ openvpn.server_port }}
+          remote-cert-tls server
+          auth SHA256
+          cipher AES-256-GCM
+          tun-mtu 1500
+          resolv-retry infinite
+          nobind
+          persist-key
+          persist-tun
+          log-append /var/log/openvpn/openvpn-client.log
+          verb 2
+   
+  tasks:
+    - name: role darexsu.openvpn
+      include_role:
+        name: darexsu.openvpn
+```
+##### Configure: disable some clients (full version)
+```yaml
+---
+- hosts: all
+  become: true
+
+  vars:
+    # OpenVPN
+    openvpn:
+      enabled: true
+      version: "2.4"
+      repo: "third_party"
+      server_ip: "{{ ansible_default_ipv4.address | default(ansible_all_ipv4_addresses[0]) }}"
+      server_port: "1194"
+      server_subnet: "10.8.0.0"
+      net_ipv4_ip_forward: true
+      service:
+        enabled: true
+        state: "started"
+    # OpenVPN -> config
+    openvpn_config:
+      example_name:
+        enabled: true
+        file: "example_name"
+        src: "config_conf.j2"
+        path: "/etc/openvpn/ccd/"
+        backup: false
+        data: |
+          disable
    
   tasks:
     - name: role darexsu.openvpn

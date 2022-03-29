@@ -33,6 +33,14 @@
     group: root
     mode: 0700
 
+- name: "Make sure dir for client config is present"
+  ansible.builtin.file:
+    path: "/etc/openvpn/ccd/"
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
 - name: force systemd to reread configs
   ansible.builtin.systemd:
     daemon_reload: true

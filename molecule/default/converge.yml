@@ -79,6 +79,7 @@
           push "dhcp-option DNS 8.8.4.4"
           server {{ openvpn.server_subnet }} 255.255.255.0
           ifconfig-pool-persist /etc/openvpn/server/ipp.txt
+          client-config-dir /etc/openvpn/ccd
           tun-mtu 1500
           keepalive 10 120
           cipher AES-256-GCM
@@ -90,9 +91,9 @@
           verb 2
       client:
         enabled: true
-        file: "client.conf"
+        file: "client"
         src: "config_conf.j2"
-        path: "/etc/openvpn/client/"
+        path: "/etc/openvpn/ccd/"
         backup: false
         data: |
           client

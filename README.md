@@ -610,7 +610,6 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
     # FirewallD -> install
     firewalld_install:
       enabled: true
-      packages: [firewalld]
     # FirewallD -> rules
     firewalld_rules:
       public_zone_masquerade:

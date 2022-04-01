@@ -9,7 +9,7 @@
       - [FAQ](#faq)
       - [merge behaviour](#merge-behaviour)      
   - Playbooks (merge version):
-      - [install and configure: OpenVPN, FirewallD](#install-and-configure-openvpn-firewalld-merge-version)
+      - [install and configure: OpenVPN v2.4, FirewallD](#install-and-configure-openvpn-firewalld-merge-version)
           - [install: OpenVPN, repo: distribution](#install-openvpn-repo-distribution-merge-version)
           - [install: OpenVPN, repo: third_party](#install-openvpn-repo-third_party-merge-version)
           - [configure: Create Certificate Authority](#configure-create-certificate-authority-merge-version)
@@ -18,7 +18,7 @@
           - [configure: add multiple client.ovpn ](#configure-add-multiple-clientovpn-merge-version)
           - [configure: disable some clients ](#configure-disable-some-clients-merge-version)
   - Playbooks (full version):
-      - [install and configure: OpenVPN, FirewallD](#install-and-configure-openvpn-firewalld-full-version)
+      - [install and configure: OpenVPN v2.4, FirewallD](#install-and-configure-openvpn-firewalld-full-version)
           - [install: OpenVPN, repo: distribution](#install-openvpn-repo-distribution-full-version)
           - [install: OpenVPN, repo: third_party](#install-openvpn-repo-third_party-full-version)
           - [configure: Create Certificate Authority](#configure-create-certificate-authority-full-version)

@@ -126,6 +126,12 @@ firewalld_install:
   enabled: false
 # FirewallD -> rules
 firewalld_rules:
+  public_zone_masquerade:
+    enabled: false
+    zone: "public"
+    state: enabled
+    permanent: true
+    masquerade: true
   trust_tun:
     enabled: false
     zone: "trusted"

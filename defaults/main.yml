@@ -127,21 +127,20 @@ firewalld_install:
 # FirewallD -> rules
 firewalld_rules:
   public_zone_masquerade:
-    enabled: false
+    enabled: true
     zone: "public"
     state: enabled
     permanent: true
     masquerade: true
-  trust_tun:
-    enabled: false
-    zone: "trusted"
+  openvpn_service:
+    enabled: true
+    zone: "public"
+    service: "openvpn"
+    state: "enabled"
+    permanent: true
+  public_zone_tun:
+    enabled: true
+    zone: "public"
     state: "enabled"
     interface: "tun0"
     permanent: true
-  openvpn_port:
-    enabled: false
-    zone: "public"
-    state: "enabled"
-    port: "{{ openvpn.server_port }}/udp"
-    permanent: true
-    immediate: true

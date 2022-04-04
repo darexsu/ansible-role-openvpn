@@ -127,19 +127,19 @@ firewalld_install:
 # FirewallD -> rules
 firewalld_rules:
   public_zone_masquerade:
-    enabled: true
+    enabled: false
     zone: "public"
     state: enabled
     permanent: true
     masquerade: true
   openvpn_service:
-    enabled: true
+    enabled: false
     zone: "public"
     service: "openvpn"
     state: "enabled"
     permanent: true
   public_zone_tun:
-    enabled: true
+    enabled: false
     zone: "public"
     state: "enabled"
     interface: "tun0"

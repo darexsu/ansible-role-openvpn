@@ -865,7 +865,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         path: "/etc/openvpn/client/"
         common_name: "client2"
         key_usage: ["digitalSignature", "keyAgreement"]
-        extended_key_usage: "TLS Web Server Authentication"
+        extended_key_usage: "TLS Web Client Authentication"
       client3:
         enabled: true
         path: "/etc/openvpn/client/"
@@ -877,7 +877,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         path: "/etc/openvpn/client/"
         common_name: "client4"
         key_usage: ["digitalSignature", "keyAgreement"]
-        extended_key_usage: "TLS Web Server Authentication"
+        extended_key_usage: "TLS Web Client Authentication"
       client5:
         enabled: true
         path: "/etc/openvpn/client/"

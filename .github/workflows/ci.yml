@@ -6,7 +6,7 @@ on:
     
 defaults:
   run:
-    working-directory: 'darexsu.nginx'
+    working-directory: 'darexsu.openvpn'
 
 jobs:
   molecule:
@@ -23,7 +23,7 @@ jobs:
       - name: Check out the codebase.
         uses: actions/checkout@v2
         with:
-          path: 'darexsu.nginx'
+          path: 'darexsu.openvpn'
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
